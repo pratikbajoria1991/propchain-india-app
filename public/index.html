@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>PropChain India — Own Mumbai, one fraction at a time</title>
+  <meta name="description" content="Grade-A Indian real estate in Mumbai, Bengaluru and Gurugram, tokenised into SEBI-compliant fractions. Start with ₹10,000, earn monthly rental yield, exit on-chain." />
+  <meta name="theme-color" content="#05070d" />
+  <meta property="og:title" content="PropChain India — Own Mumbai, one fraction at a time" />
+  <meta property="og:description" content="Grade-A real estate, tokenised into SEBI-compliant fractions from ₹10,000." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/assets/city.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2305070d'/%3E%3Crect x='7' y='9' width='8' height='16' rx='1.5' fill='%236366f1'/%3E%3Crect x='17' y='5' width='8' height='20' rx='1.5' fill='%2310b981'/%3E%3C/svg%3E" />
+  <link rel="preload" href="assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/city.webp" as="image" />
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      src: url('assets/fonts/InterVariable.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+    :root, .sw-root {
+      --sw-bg: #05070d;          /* deep night to blend with the photography */
+      --sw-ink: #eef0f4;
+      --sw-ink-soft: #a7adbd;
+      --sw-accent: #6366f1;
+      --sw-font-display: 'Inter', system-ui, -apple-system, sans-serif;
+      --sw-font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    html { background: #05070d; }
+    .sw-copy__title { font-feature-settings: 'ss01', 'cv11'; }
+
+    /* ---- Invest modal ---------------------------------------------------- */
+    .pc-modal { position: fixed; inset: 0; z-index: 300; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .pc-modal.open { display: flex; }
+    .pc-modal__scrim { position: absolute; inset: 0; background: rgba(3, 5, 10, 0.78); backdrop-filter: blur(10px); }
+    .pc-modal__card { position: relative; width: min(560px, 100%); max-height: 88vh; overflow: auto; background: #0b0f1c; border: 1px solid rgba(99, 102, 241, 0.35); border-radius: 22px; padding: 30px 30px 26px; color: #eef0f4; font-family: 'Inter', system-ui, sans-serif; box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6); }
+    .pc-modal__close { position: absolute; top: 14px; right: 16px; background: none; border: 0; color: #a7adbd; font-size: 26px; line-height: 1; cursor: pointer; padding: 6px; }
+    .pc-modal__eyebrow { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #10b981; font-weight: 700; }
+    .pc-modal__title { margin: 8px 0 4px; font-size: 26px; font-weight: 750; letter-spacing: -0.01em; }
+    .pc-modal__sub { margin: 0 0 18px; color: #a7adbd; font-size: 14.5px; line-height: 1.5; }
+    .pc-props { display: grid; gap: 10px; margin-bottom: 20px; }
+    .pc-prop { border: 1px solid rgba(255, 255, 255, 0.09); border-radius: 14px; padding: 13px 15px; display: flex; gap: 12px; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.025); }
+    .pc-prop__name { font-weight: 650; font-size: 15px; }
+    .pc-prop__meta { color: #a7adbd; font-size: 12.5px; margin-top: 2px; }
+    .pc-prop__yield { text-align: right; white-space: nowrap; }
+    .pc-prop__yield b { color: #10b981; font-size: 16px; }
+    .pc-prop__yield span { display: block; color: #a7adbd; font-size: 11.5px; margin-top: 2px; }
+    .pc-prop__bar { height: 4px; border-radius: 4px; background: rgba(255, 255, 255, 0.08); margin-top: 8px; overflow: hidden; }
+    .pc-prop__bar i { display: block; height: 100%; background: linear-gradient(90deg, #6366f1, #10b981); border-radius: 4px; }
+    .pc-prop--soldout { opacity: 0.55; }
+    .pc-tag { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.14); color: #10b981; }
+    .pc-tag--soldout { background: rgba(255, 255, 255, 0.1); color: #a7adbd; }
+    .pc-form { display: flex; gap: 10px; }
+    .pc-form input { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 12px; padding: 13px 16px; color: #eef0f4; font-size: 15px; font-family: inherit; outline: none; }
+    .pc-form input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25); }
+    .pc-form button { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; border: 0; border-radius: 12px; padding: 13px 22px; font-size: 15px; font-weight: 650; font-family: inherit; cursor: pointer; }
+    .pc-form button:disabled { opacity: 0.6; cursor: wait; }
+    .pc-msg { margin-top: 10px; font-size: 13.5px; min-height: 18px; }
+    .pc-msg.ok { color: #10b981; }
+    .pc-msg.err { color: #f87171; }
+    .pc-fine { margin-top: 16px; color: #6b7280; font-size: 11.5px; line-height: 1.55; }
+  </style>
+</head>
+<body>
+  <div id="top"></div>
+  <div id="world"></div>
+
+  <div class="pc-modal" id="pcModal" role="dialog" aria-modal="true" aria-labelledby="pcTitle">
+    <div class="pc-modal__scrim" data-close></div>
+    <div class="pc-modal__card">
+      <button class="pc-modal__close" data-close aria-label="Close">×</button>
+      <div class="pc-modal__eyebrow">Early access</div>
+      <h2 class="pc-modal__title" id="pcTitle">Live properties</h2>
+      <p class="pc-modal__sub">Three assets are onboarding in this cohort. Join the waitlist and we'll open your allocation window.</p>
+      <div class="pc-props" id="pcProps"><div class="pc-prop"><div class="pc-prop__name">Loading live listings…</div></div></div>
+      <form class="pc-form" id="pcForm">
+        <input type="email" id="pcEmail" placeholder="you@example.com" autocomplete="email" required />
+        <button type="submit" id="pcSubmit">Join waitlist</button>
+      </form>
+      <div class="pc-msg" id="pcMsg"></div>
+      <p class="pc-fine">Investments are facilitated through SEBI-compliant SPV structures. Real estate carries risk; yields are targets, not guarantees. By joining you agree to receive one launch email — no spam, unsubscribe anytime.</p>
+    </div>
+  </div>
+
+  <script src="scrub-engine.js"></script>
+  <script>
+    mountScrollWorld(document.getElementById('world'), {
+      brand: { name: 'PropChain India', href: '#top' },
+      cta: { label: 'Start investing', href: '#invest' },
+      hint: 'scroll to fly in',
+      diveScroll: 1.4,
+      connScroll: 1.0,
+      sections: [
+        {
+          id: 'city', label: 'The City',
+          still: 'assets/city.webp',
+          clip: 'assets/vid/city.mp4',
+          clipMobile: 'assets/vid/city-m.mp4',
+          accent: '#6366f1',
+          scroll: 1.5, linger: 0.35,
+          eyebrow: 'Marine Drive, Mumbai',
+          title: 'India’s cities are a ₹400 lakh crore asset class.',
+          body: 'From the Queen’s Necklace to BKC, prime real estate has built generational wealth — for the few who could buy whole floors.',
+          tags: ['Mumbai', 'Bengaluru', 'Gurugram'],
+        },
+        {
+          id: 'tower', label: 'The Tower',
+          still: 'assets/tower.webp',
+          clip: 'assets/vid/tower.mp4',
+          clipMobile: 'assets/vid/tower-m.mp4',
+          accent: '#8b5cf6',
+          scroll: 1.6, linger: 0.45,
+          eyebrow: 'Lower Parel, rising',
+          title: 'Every tower, split into on-chain fractions.',
+          body: 'Grade-A commercial property, tokenised into SEBI-compliant fractions held in audited SPVs. Tradeable, transparent, yours from day one.',
+          tags: ['9%+ target rental yield', 'SEBI-ready SPVs', 'Live on-chain registry'],
+        },
+        {
+          id: 'invest', label: 'Your Stake',
+          still: 'assets/stake.webp',
+          clip: 'assets/vid/stake.mp4',
+          clipMobile: 'assets/vid/stake-m.mp4',
+          accent: '#10b981',
+          scroll: 1.6, linger: 0.5,
+          eyebrow: 'Your move',
+          title: 'Start with ₹10,000. Exit anytime.',
+          body: 'Monthly rental income, long-term appreciation, and on-chain liquidity whenever you want out.',
+          tags: [],
+          cta: { primary: { label: 'Start investing', href: '#invest' },
+                 secondary: { label: 'How it works', href: '#invest' } },
+        },
+      ],
+      connectors: ['assets/vid/conn1.mp4', 'assets/vid/conn2.mp4'],
+      connectorsMobile: ['assets/vid/conn1-m.mp4', 'assets/vid/conn2-m.mp4'],
+    });
+
+    // ---- Invest modal: live listings + waitlist (full-stack wiring) -------
+    const modal = document.getElementById('pcModal');
+    const propsEl = document.getElementById('pcProps');
+    let propsLoaded = false;
+
+    function inr(n) { return '₹' + n.toLocaleString('en-IN'); }
+
+    async function loadProps() {
+      if (propsLoaded) return;
+      try {
+        const r = await fetch('/api/properties');
+        const data = await r.json();
+        propsEl.innerHTML = data.properties.map(p => {
+          const pct = Math.round(100 * p.fractions_sold / p.fractions_total);
+          const soldOut = p.status === 'sold_out';
+          return `<div class="pc-prop${soldOut ? ' pc-prop--soldout' : ''}">
+            <div style="flex:1">
+              <div class="pc-prop__name">${p.name} · ${p.city}</div>
+              <div class="pc-prop__meta">${p.micro_market} · ${p.asset_type} · ${p.tenant}</div>
+              <div class="pc-prop__bar"><i style="width:${pct}%"></i></div>
+            </div>
+            <div class="pc-prop__yield">
+              <b>${p.target_yield_pct}%</b>
+              <span>target yield</span>
+              <span class="pc-tag${soldOut ? ' pc-tag--soldout' : ''}">${soldOut ? 'SOLD OUT' : pct + '% funded'}</span>
+            </div>
+          </div>`;
+        }).join('');
+        propsLoaded = true;
+      } catch (e) {
+        propsEl.innerHTML = '<div class="pc-prop"><div class="pc-prop__name">Listings unavailable — try again shortly.</div></div>';
+      }
+    }
+
+    function openModal() { modal.classList.add('open'); document.documentElement.style.overflow = 'hidden'; loadProps(); }
+    function closeModal() { modal.classList.remove('open'); document.documentElement.style.overflow = ''; }
+
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a[href="#invest"]');
+      if (a) { e.preventDefault(); openModal(); }
+      if (e.target.closest('[data-close]')) closeModal();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    document.getElementById('pcForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = document.getElementById('pcSubmit');
+      const msg = document.getElementById('pcMsg');
+      btn.disabled = true; msg.className = 'pc-msg'; msg.textContent = '';
+      try {
+        const r = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: document.getElementById('pcEmail').value, interest: 'launch-cohort' }),
+        });
+        const data = await r.json();
+        msg.className = 'pc-msg ' + (data.ok ? 'ok' : 'err');
+        msg.textContent = data.ok ? data.message : data.error;
+        if (data.ok) document.getElementById('pcForm').reset();
+      } catch (err) {
+        msg.className = 'pc-msg err';
+        msg.textContent = 'Network error — please try again.';
+      }
+      btn.disabled = false;
+    });
+  </script>
+</body>
+</html>

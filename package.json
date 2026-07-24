@@ -1,0 +1,10 @@
+{
+  "name": "propchain-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PropChain India — fractional, on-chain Indian real estate. Scroll-world landing + waitlist API.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  }
+}

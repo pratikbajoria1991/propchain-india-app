@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Local waitlist captures (ephemeral; use KV/Postgres in prod)
+data/*.json
+
+# Vercel
+.vercel
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
