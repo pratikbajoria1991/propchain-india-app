@@ -47,8 +47,16 @@ const PROPERTIES = [
 ];
 
 module.exports = (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
+  if (req.method !== 'GET') {
+    res.statusCode = 405;
+    res.setHeader('Content-Type', 'application/json');
+    return res.end(JSON.stringify({ ok: false, error: 'GET only' }));
+  }
   res.statusCode = 200;
-  res.end(JSON.stringify({ ok: true, properties: PROPERTIES }));
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
+  res.end(JSON.stringify({ ok: true, count: PROPERTIES.length, properties: PROPERTIES }));
 };
+
+module.exports.PROPERTIES = PROPERTIES;

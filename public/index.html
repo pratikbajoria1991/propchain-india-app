@@ -59,6 +59,7 @@
     .pc-form input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25); }
     .pc-form button { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; border: 0; border-radius: 12px; padding: 13px 22px; font-size: 15px; font-weight: 650; font-family: inherit; cursor: pointer; }
     .pc-form button:disabled { opacity: 0.6; cursor: wait; }
+    .pc-hp { position: absolute !important; left: -9999px !important; top: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
     .pc-msg { margin-top: 10px; font-size: 13.5px; min-height: 18px; }
     .pc-msg.ok { color: #10b981; }
     .pc-msg.err { color: #f87171; }
@@ -77,11 +78,12 @@
       <h2 class="pc-modal__title" id="pcTitle">Live properties</h2>
       <p class="pc-modal__sub">Three assets are onboarding in this cohort. Join the waitlist and we'll open your allocation window.</p>
       <div class="pc-props" id="pcProps"><div class="pc-prop"><div class="pc-prop__name">Loading live listings…</div></div></div>
-      <form class="pc-form" id="pcForm">
-        <input type="email" id="pcEmail" placeholder="you@example.com" autocomplete="email" required />
+      <form class="pc-form" id="pcForm" novalidate>
+        <input type="email" id="pcEmail" placeholder="you@example.com" autocomplete="email" required aria-label="Email address" />
+        <input type="text" id="pcCompany" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" class="pc-hp" />
         <button type="submit" id="pcSubmit">Join waitlist</button>
       </form>
-      <div class="pc-msg" id="pcMsg"></div>
+      <div class="pc-msg" id="pcMsg" role="status" aria-live="polite"></div>
       <p class="pc-fine">Investments are facilitated through SEBI-compliant SPV structures. Real estate carries risk; yields are targets, not guarantees. By joining you agree to receive one launch email — no spam, unsubscribe anytime.</p>
     </div>
   </div>
@@ -172,15 +174,37 @@
       }
     }
 
-    function openModal() { modal.classList.add('open'); document.documentElement.style.overflow = 'hidden'; loadProps(); }
-    function closeModal() { modal.classList.remove('open'); document.documentElement.style.overflow = ''; }
+    let lastFocus = null;
+    function openModal() {
+      lastFocus = document.activeElement;
+      modal.classList.add('open');
+      document.documentElement.style.overflow = 'hidden';
+      loadProps();
+      setTimeout(() => document.getElementById('pcEmail').focus(), 50);
+    }
+    function closeModal() {
+      modal.classList.remove('open');
+      document.documentElement.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
 
     document.addEventListener('click', e => {
       const a = e.target.closest('a[href="#invest"]');
       if (a) { e.preventDefault(); openModal(); }
       if (e.target.closest('[data-close]')) closeModal();
     });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    document.addEventListener('keydown', e => {
+      if (!modal.classList.contains('open')) return;
+      if (e.key === 'Escape') return closeModal();
+      if (e.key === 'Tab') {
+        // Simple focus trap within the modal card.
+        const f = modal.querySelectorAll('input:not([tabindex="-1"]), button, a[href]');
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
 
     document.getElementById('pcForm').addEventListener('submit', async e => {
       e.preventDefault();
@@ -191,7 +215,7 @@
         const r = await fetch('/api/waitlist', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: document.getElementById('pcEmail').value, interest: 'launch-cohort' }),
+          body: JSON.stringify({ email: document.getElementById('pcEmail').value, company: document.getElementById('pcCompany').value, interest: 'launch-cohort' }),
         });
         const data = await r.json();
         msg.className = 'pc-msg ' + (data.ok ? 'ok' : 'err');

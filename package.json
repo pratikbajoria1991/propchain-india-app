@@ -5,6 +5,7 @@
   "description": "PropChain India — fractional, on-chain Indian real estate. Scroll-world landing + waitlist API.",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "test": "node test/api.test.js"
   }
 }

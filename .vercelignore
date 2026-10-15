@@ -1,0 +1,6 @@
+test/
+data/
+node_modules/
+server.js
+*.log
+.DS_Store
