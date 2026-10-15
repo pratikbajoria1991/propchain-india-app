@@ -1,62 +1,50 @@
-// GET /api/properties — live listings feed.
-// Plain Node (req, res) handler: works as a Vercel serverless function and
-// under the local dev server (server.js) unchanged.
+// GET /api/properties — illustrative example listings.
+// These are NOT real offerings. PropChain India is pre-launch; the payload is
+// explicitly flagged so no client can mistake it for live inventory.
+// Plain Node (req, res) handler: Vercel serverless function and local server.js.
 const PROPERTIES = [
   {
-    id: 'bkc-one',
-    name: 'One BKC Tower B',
+    id: 'example-mumbai-office',
+    name: 'Grade-A office floor',
     city: 'Mumbai',
     micro_market: 'Bandra Kurla Complex',
-    asset_type: 'Grade-A Office',
-    target_yield_pct: 9.2,
-    min_investment_inr: 10000,
-    price_per_fraction_inr: 10000,
-    fractions_total: 48000,
-    fractions_sold: 31240,
-    tenant: 'Multinational bank, 9-yr lock-in',
-    status: 'open',
+    asset_type: 'Commercial office',
+    target_yield_pct: 8.5,
+    illustrative: true,
   },
   {
-    id: 'orr-tech-park',
-    name: 'Ecoworld Campus 7',
+    id: 'example-bengaluru-itpark',
+    name: 'IT park floor',
     city: 'Bengaluru',
     micro_market: 'Outer Ring Road',
-    asset_type: 'IT Park Floor',
-    target_yield_pct: 8.7,
-    min_investment_inr: 10000,
-    price_per_fraction_inr: 10000,
-    fractions_total: 36000,
-    fractions_sold: 36000,
-    tenant: 'Global SaaS tenant, 7-yr lease',
-    status: 'sold_out',
+    asset_type: 'IT / tech campus',
+    target_yield_pct: 8.0,
+    illustrative: true,
   },
   {
-    id: 'cybercity-9',
-    name: 'Cyber Hub Nine',
+    id: 'example-gurugram-office',
+    name: 'Grade-A office floor',
     city: 'Gurugram',
-    micro_market: 'DLF Cyber City',
-    asset_type: 'Grade-A Office',
-    target_yield_pct: 8.9,
-    min_investment_inr: 10000,
-    price_per_fraction_inr: 10000,
-    fractions_total: 52000,
-    fractions_sold: 12980,
-    tenant: 'Fortune 500 consulting firm',
-    status: 'open',
+    micro_market: 'Cyber City',
+    asset_type: 'Commercial office',
+    target_yield_pct: 8.2,
+    illustrative: true,
   },
 ];
 
+const DISCLAIMER =
+  'Illustrative examples only. PropChain India is pre-launch; these are not offers, listings or forecasts.';
+
 module.exports = (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
   if (req.method !== 'GET') {
     res.statusCode = 405;
-    res.setHeader('Content-Type', 'application/json');
     return res.end(JSON.stringify({ ok: false, error: 'GET only' }));
   }
   res.statusCode = 200;
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
-  res.end(JSON.stringify({ ok: true, count: PROPERTIES.length, properties: PROPERTIES }));
+  res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+  res.end(JSON.stringify({ ok: true, illustrative: true, disclaimer: DISCLAIMER, count: PROPERTIES.length, properties: PROPERTIES }));
 };
 
 module.exports.PROPERTIES = PROPERTIES;

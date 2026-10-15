@@ -2,8 +2,10 @@
   "version": 2,
   "framework": null,
   "buildCommand": "",
-  "installCommand": "",
   "outputDirectory": "public",
+  "functions": {
+    "api/*.js": { "maxDuration": 10, "memory": 256 }
+  },
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [

@@ -2,6 +2,7 @@
 // Portable plain-Node handler (local server.js + Vercel serverless).
 // Persistence is delegated to ./_store.js, which auto-selects Vercel KV,
 // an outbound webhook, or a local file depending on the environment.
+const crypto = require('crypto');
 const { saveEntry, backend } = require('./_store.js');
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -66,8 +67,20 @@ module.exports = async (req, res) => {
   if (!email || email.length > 254 || !EMAIL_RE.test(email)) {
     return send(res, 422, { ok: false, error: 'Enter a valid email address' });
   }
+  // DPDP Act 2023: processing needs free, specific, informed consent.
+  if (body.consent !== true) {
+    return send(res, 422, { ok: false, error: 'Please tick the consent box to join the waitlist' });
+  }
 
-  const entry = { email, interest, at: new Date().toISOString(), ip, ua: String(req.headers['user-agent'] || '').slice(0, 300) };
+  // Data minimisation: keep a salted hash of the IP (enough for abuse
+  // analysis), not the address itself, and no raw user-agent string.
+  const ipHash = crypto.createHash('sha256').update((process.env.IP_SALT || 'propchain') + ip).digest('hex').slice(0, 16);
+  const entry = {
+    email, interest,
+    consent: true, consent_version: 'v1-2026-10',
+    at: new Date().toISOString(),
+    ip_hash: ipHash,
+  };
   const result = await saveEntry(entry);
 
   if (result.error) {

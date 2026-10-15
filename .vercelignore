@@ -1,11 +1,13 @@
-# Dev-only files. Excluding package.json + server.js keeps Vercel in
-# zero-config "static site + /api functions" mode (otherwise it detects a
-# Node server app and looks for a server entrypoint). The /api/*.js files
-# still deploy as serverless functions by directory convention.
+# Not needed at runtime. package.json is intentionally NOT ignored: the
+# /api functions depend on @vercel/blob. framework:null in vercel.json keeps
+# Vercel from treating this repo as a Node server app.
 test/
 data/
-node_modules/
+source/
+scripts/
+build/
 server.js
-package.json
+node_modules/
+.env*
 *.log
 .DS_Store

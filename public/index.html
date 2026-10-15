@@ -1,19 +1,25 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-IN">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>PropChain India — Own Mumbai, one fraction at a time</title>
-  <meta name="description" content="Grade-A Indian real estate in Mumbai, Bengaluru and Gurugram, tokenised into SEBI-compliant fractions. Start with ₹10,000, earn monthly rental yield, exit on-chain." />
+  <title>PropChain India — Fractional ownership of Indian commercial real estate</title>
+  <meta name="description" content="PropChain India is building a way to own a fraction of Grade-A commercial property in Mumbai, Bengaluru and Gurugram. Pre-launch. Join the early-access waitlist." />
   <meta name="theme-color" content="#05070d" />
-  <meta property="og:title" content="PropChain India — Own Mumbai, one fraction at a time" />
-  <meta property="og:description" content="Grade-A real estate, tokenised into SEBI-compliant fractions from ₹10,000." />
+  <link rel="canonical" href="https://propchain-app-sepia.vercel.app/" />
+  <meta property="og:title" content="PropChain India — Own a fraction of Indian commercial real estate" />
+  <meta property="og:description" content="Pre-launch. Join the early-access waitlist." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="/assets/city.webp" />
+  <meta property="og:url" content="https://propchain-app-sepia.vercel.app/" />
+  <meta property="og:image" content="https://propchain-app-sepia.vercel.app/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://propchain-app-sepia.vercel.app/og.jpg" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2305070d'/%3E%3Crect x='7' y='9' width='8' height='16' rx='1.5' fill='%236366f1'/%3E%3Crect x='17' y='5' width='8' height='20' rx='1.5' fill='%2310b981'/%3E%3C/svg%3E" />
   <link rel="preload" href="assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="assets/city.webp" as="image" />
+  <link rel="preload" href="assets/city.webp" as="image" media="(min-width: 861px)" />
+  <link rel="preload" href="assets/city-m.webp" as="image" media="(max-width: 860px)" />
   <style>
     @font-face {
       font-family: 'Inter';
@@ -23,68 +29,167 @@
       font-display: swap;
     }
     :root, .sw-root {
-      --sw-bg: #05070d;          /* deep night to blend with the photography */
-      --sw-ink: #eef0f4;
-      --sw-ink-soft: #a7adbd;
+      --sw-bg: #05070d;
+      --sw-ink: #f4f5f8;
+      --sw-ink-soft: #b4bacb;
       --sw-accent: #6366f1;
-      --sw-font-display: 'Inter', system-ui, -apple-system, sans-serif;
-      --sw-font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --sw-font-display: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --sw-font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --pc-glass: rgba(12, 16, 30, 0.72);
+      --pc-line: rgba(255, 255, 255, 0.16);
     }
     html { background: #05070d; }
-    .sw-copy__title { font-feature-settings: 'ss01', 'cv11'; }
 
-    /* ---- Invest modal ---------------------------------------------------- */
-    .pc-modal { position: fixed; inset: 0; z-index: 300; display: none; align-items: center; justify-content: center; padding: 20px; }
+    /* ---------------------------------------------------------------------
+       Dark-theme overrides for the scroll-world engine.
+       The engine's stylesheet assumes a LIGHT theme: white text on a
+       --sw-ink background, white glass for nav and labels. With a dark
+       --sw-ink those became invisible (white-on-white CTA, unreadable nav
+       and route labels). Everything below restores contrast (WCAG AA).
+       --------------------------------------------------------------------- */
+    .sw-root .sw-topbar { background: linear-gradient(180deg, rgba(5,7,13,.82) 0%, rgba(5,7,13,0) 100%); }
+    .sw-root .sw-brand { color: #fff; }
+    .sw-root .sw-brand__name { letter-spacing: -0.01em; }
+    .sw-root .sw-nav { background: var(--pc-glass); border-color: var(--pc-line); backdrop-filter: blur(14px) saturate(140%); }
+    .sw-root .sw-nav__item { color: #d3d7e3; }
+    .sw-root .sw-nav__item:hover { color: #fff; }
+    .sw-root .sw-nav__item.is-active { color: #fff; background: var(--sw-accent); }
+    .sw-root .sw-topcta,
+    .sw-root .sw-btn--primary { color: #05070d; background: #fff; box-shadow: 0 8px 28px rgba(0,0,0,.35); }
+    .sw-root .sw-btn--ghost { color: #fff; background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.5); }
+    .sw-root .sw-copy__num { color: #b4bacb; }
+    .sw-root .sw-copy__eyebrow { color: color-mix(in srgb, var(--sw-accent) 45%, #fff); }
+    .sw-root .sw-copy__title { color: #fff; text-shadow: 0 2px 24px rgba(0,0,0,.65); }
+    .sw-root .sw-copy__body { color: #e1e4ee; text-shadow: 0 1px 14px rgba(0,0,0,.75); }
+    .sw-root .sw-copy__tags li { color: #eef0ff; background: var(--pc-glass); border-color: var(--pc-line); backdrop-filter: blur(10px); }
+    .sw-root .sw-route__label { color: #fff; background: rgba(12,16,30,.86); border-color: var(--pc-line); }
+    .sw-root .sw-hint { color: #d3d7e3; }
+    .sw-root .sw-hint i { border-color: rgba(255,255,255,.55); }
+    .sw-root .sw-sky__glow { background: radial-gradient(60% 42% at 74% 16%, color-mix(in srgb, var(--sw-accent) 18%, transparent), transparent 70%); }
+    .sw-root a:focus-visible, .sw-root button:focus-visible { outline: 3px solid #a5b4fc; outline-offset: 3px; }
+    @media (min-width: 861px) {
+      /* Wider column + slightly smaller headline so copy, tags and CTAs all
+         fit above the fold at 1366x768 without clipping. */
+      .sw-root .sw-copy { width: min(46vw, 580px); top: 47%; }
+      .sw-root .sw-copy__title { font-size: clamp(2rem, 3.5vw, 3.1rem); line-height: 1.06; }
+      .sw-root .sw-copy__body { font-size: clamp(.98rem, 1.15vw, 1.1rem); }
+      .sw-root .sw-copy__tags { margin-top: 20px; }
+    }
+    @media (max-width: 860px) {
+      /* Leave room for the scroll hint so it never sits on the copy. */
+      .sw-root .sw-copy { bottom: calc(clamp(92px, 14dvh, 132px) + env(safe-area-inset-bottom)); }
+      .sw-root .sw-topcta { padding: 9px 16px; font-size: .85rem; }
+      /* Hint left, disclosures chip right: they must not share the centre. */
+      .sw-root .sw-hint { left: clamp(18px, 5vw, 64px); transform: none; align-items: flex-start; }
+    }
+
+    /* Disclosures chip (fixed, always reachable) ---------------------------- */
+    .pc-disc { position: fixed; right: clamp(14px, 3vw, 28px); bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 45; display: inline-flex; align-items: center; gap: 8px; background: var(--pc-glass); color: #d3d7e3; border: 1px solid var(--pc-line); border-radius: 999px; padding: 8px 14px; font: 600 12px/1 'Inter', system-ui, sans-serif; cursor: pointer; backdrop-filter: blur(10px); }
+    .pc-disc:hover { color: #fff; border-color: rgba(255,255,255,.4); }
+    .pc-disc i { width: 7px; height: 7px; border-radius: 50%; background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,.25); }
+
+    /* Modals ------------------------------------------------------------ */
+    .pc-modal { position: fixed; inset: 0; z-index: 300; display: none; align-items: center; justify-content: center; padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom)); }
     .pc-modal.open { display: flex; }
-    .pc-modal__scrim { position: absolute; inset: 0; background: rgba(3, 5, 10, 0.78); backdrop-filter: blur(10px); }
-    .pc-modal__card { position: relative; width: min(560px, 100%); max-height: 88vh; overflow: auto; background: #0b0f1c; border: 1px solid rgba(99, 102, 241, 0.35); border-radius: 22px; padding: 30px 30px 26px; color: #eef0f4; font-family: 'Inter', system-ui, sans-serif; box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6); }
-    .pc-modal__close { position: absolute; top: 14px; right: 16px; background: none; border: 0; color: #a7adbd; font-size: 26px; line-height: 1; cursor: pointer; padding: 6px; }
-    .pc-modal__eyebrow { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #10b981; font-weight: 700; }
-    .pc-modal__title { margin: 8px 0 4px; font-size: 26px; font-weight: 750; letter-spacing: -0.01em; }
-    .pc-modal__sub { margin: 0 0 18px; color: #a7adbd; font-size: 14.5px; line-height: 1.5; }
+    .pc-modal__scrim { position: absolute; inset: 0; background: rgba(3, 5, 10, 0.8); backdrop-filter: blur(10px); }
+    .pc-modal__card { position: relative; width: min(580px, 100%); max-height: min(90dvh, 760px); overflow: auto; background: #0b0f1c; border: 1px solid rgba(99, 102, 241, 0.4); border-radius: 22px; padding: 30px 28px 24px; color: #f4f5f8; font-family: 'Inter', system-ui, sans-serif; box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6); }
+    .pc-modal__close { position: absolute; top: 10px; right: 12px; background: none; border: 0; color: #b4bacb; font-size: 28px; line-height: 1; cursor: pointer; padding: 8px 10px; border-radius: 10px; }
+    .pc-modal__close:hover { color: #fff; background: rgba(255,255,255,.08); }
+    .pc-modal__eyebrow { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #34d399; font-weight: 700; }
+    .pc-modal__title { margin: 8px 0 6px; font-size: 25px; font-weight: 750; letter-spacing: -0.015em; line-height: 1.2; }
+    .pc-modal__sub { margin: 0 0 18px; color: #c4c9d8; font-size: 14.5px; line-height: 1.55; }
+    .pc-banner { display: flex; gap: 10px; align-items: flex-start; background: rgba(245,158,11,.1); border: 1px solid rgba(245,158,11,.35); color: #fcd9a0; border-radius: 12px; padding: 11px 13px; font-size: 13px; line-height: 1.5; margin-bottom: 16px; }
     .pc-props { display: grid; gap: 10px; margin-bottom: 20px; }
-    .pc-prop { border: 1px solid rgba(255, 255, 255, 0.09); border-radius: 14px; padding: 13px 15px; display: flex; gap: 12px; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.025); }
+    .pc-prop { border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; padding: 13px 15px; display: flex; gap: 12px; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.03); }
     .pc-prop__name { font-weight: 650; font-size: 15px; }
-    .pc-prop__meta { color: #a7adbd; font-size: 12.5px; margin-top: 2px; }
+    .pc-prop__meta { color: #b4bacb; font-size: 12.5px; margin-top: 3px; line-height: 1.4; }
     .pc-prop__yield { text-align: right; white-space: nowrap; }
-    .pc-prop__yield b { color: #10b981; font-size: 16px; }
-    .pc-prop__yield span { display: block; color: #a7adbd; font-size: 11.5px; margin-top: 2px; }
-    .pc-prop__bar { height: 4px; border-radius: 4px; background: rgba(255, 255, 255, 0.08); margin-top: 8px; overflow: hidden; }
-    .pc-prop__bar i { display: block; height: 100%; background: linear-gradient(90deg, #6366f1, #10b981); border-radius: 4px; }
-    .pc-prop--soldout { opacity: 0.55; }
-    .pc-tag { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.14); color: #10b981; }
-    .pc-tag--soldout { background: rgba(255, 255, 255, 0.1); color: #a7adbd; }
-    .pc-form { display: flex; gap: 10px; }
-    .pc-form input { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 12px; padding: 13px 16px; color: #eef0f4; font-size: 15px; font-family: inherit; outline: none; }
-    .pc-form input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25); }
-    .pc-form button { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; border: 0; border-radius: 12px; padding: 13px 22px; font-size: 15px; font-weight: 650; font-family: inherit; cursor: pointer; }
-    .pc-form button:disabled { opacity: 0.6; cursor: wait; }
+    .pc-prop__yield b { color: #34d399; font-size: 16px; }
+    .pc-prop__yield span { display: block; color: #b4bacb; font-size: 11.5px; margin-top: 2px; }
+    .pc-tag { display: inline-block; margin-top: 6px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 999px; background: rgba(245,158,11,.14); color: #fbbf24; }
+    .pc-form { display: grid; gap: 12px; }
+    .pc-row { display: flex; gap: 10px; }
+    .pc-form input[type=email] { flex: 1; min-width: 0; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.22); border-radius: 12px; padding: 14px 16px; color: #fff; font-size: 16px; font-family: inherit; outline: none; }
+    .pc-form input[type=email]::placeholder { color: #8b92a6; }
+    .pc-form input[type=email]:focus { border-color: #818cf8; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); }
+    .pc-form button[type=submit] { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; border: 0; border-radius: 12px; padding: 14px 22px; font-size: 15px; font-weight: 650; font-family: inherit; cursor: pointer; white-space: nowrap; }
+    .pc-form button[type=submit]:disabled { opacity: 0.6; cursor: wait; }
+    .pc-consent { display: flex; gap: 10px; align-items: flex-start; color: #c4c9d8; font-size: 13px; line-height: 1.5; cursor: pointer; }
+    .pc-consent input { width: 18px; height: 18px; margin-top: 1px; accent-color: #6366f1; flex: none; }
     .pc-hp { position: absolute !important; left: -9999px !important; top: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-    .pc-msg { margin-top: 10px; font-size: 13.5px; min-height: 18px; }
-    .pc-msg.ok { color: #10b981; }
-    .pc-msg.err { color: #f87171; }
-    .pc-fine { margin-top: 16px; color: #6b7280; font-size: 11.5px; line-height: 1.55; }
+    .pc-msg { min-height: 20px; font-size: 14px; }
+    .pc-msg.ok { color: #34d399; }
+    .pc-msg.err { color: #fca5a5; }
+    .pc-fine { margin: 14px 0 0; color: #8b92a6; font-size: 12px; line-height: 1.6; }
+    .pc-list { margin: 0; padding-left: 18px; color: #d3d7e3; font-size: 14px; line-height: 1.65; }
+    .pc-list li { margin-bottom: 10px; }
+    .pc-list b { color: #fff; }
+    .pc-credit { margin-top: 16px; color: #8b92a6; font-size: 12px; }
+    @media (max-width: 520px) {
+      .pc-row { flex-direction: column; }
+      .pc-prop { flex-direction: column; align-items: flex-start; }
+      .pc-prop__yield { text-align: left; }
+    }
+    noscript .pc-ns { position: fixed; inset: 0; background: #05070d; color: #f4f5f8; font-family: system-ui, sans-serif; display: grid; place-items: center; padding: 24px; text-align: center; }
   </style>
 </head>
 <body>
   <div id="top"></div>
   <div id="world"></div>
 
+  <noscript>
+    <div class="pc-ns">
+      <div>
+        <h1>PropChain India</h1>
+        <p>Fractional ownership of Indian commercial real estate. Pre-launch.</p>
+        <p>This page uses JavaScript for its scroll experience. Please enable it to continue.</p>
+      </div>
+    </div>
+  </noscript>
+
+  <button type="button" class="pc-disc" data-open="pcInfo"><i aria-hidden="true"></i>Pre-launch · Disclosures</button>
+
+  <!-- Waitlist ---------------------------------------------------------- -->
   <div class="pc-modal" id="pcModal" role="dialog" aria-modal="true" aria-labelledby="pcTitle">
     <div class="pc-modal__scrim" data-close></div>
     <div class="pc-modal__card">
       <button class="pc-modal__close" data-close aria-label="Close">×</button>
       <div class="pc-modal__eyebrow">Early access</div>
-      <h2 class="pc-modal__title" id="pcTitle">Live properties</h2>
-      <p class="pc-modal__sub">Three assets are onboarding in this cohort. Join the waitlist and we'll open your allocation window.</p>
-      <div class="pc-props" id="pcProps"><div class="pc-prop"><div class="pc-prop__name">Loading live listings…</div></div></div>
+      <h2 class="pc-modal__title" id="pcTitle">Join the PropChain waitlist</h2>
+      <p class="pc-modal__sub">We are onboarding in small cohorts. Leave your email and we will send launch details and the full risk disclosures before anything goes live.</p>
+      <div class="pc-banner" role="note"><span aria-hidden="true">⚠</span><span>PropChain India is pre-launch. The examples below are <b>illustrative</b>, not offers or recommendations, and no investment can be made yet.</span></div>
+      <div class="pc-props" id="pcProps"><div class="pc-prop"><div class="pc-prop__name">Loading examples…</div></div></div>
       <form class="pc-form" id="pcForm" novalidate>
-        <input type="email" id="pcEmail" placeholder="you@example.com" autocomplete="email" required aria-label="Email address" />
-        <input type="text" id="pcCompany" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" class="pc-hp" />
-        <button type="submit" id="pcSubmit">Join waitlist</button>
+        <div class="pc-row">
+          <input type="email" id="pcEmail" placeholder="you@example.com" autocomplete="email" inputmode="email" required aria-label="Email address" />
+          <input type="text" id="pcCompany" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" class="pc-hp" />
+          <button type="submit" id="pcSubmit">Join waitlist</button>
+        </div>
+        <label class="pc-consent">
+          <input type="checkbox" id="pcConsent" />
+          <span>I agree that PropChain India may email me about early access. I can withdraw consent at any time by replying to any message from us.</span>
+        </label>
       </form>
       <div class="pc-msg" id="pcMsg" role="status" aria-live="polite"></div>
-      <p class="pc-fine">Investments are facilitated through SEBI-compliant SPV structures. Real estate carries risk; yields are targets, not guarantees. By joining you agree to receive one launch email — no spam, unsubscribe anytime.</p>
+      <p class="pc-fine">Your email is stored privately, used only for waitlist communication, and processed under India's Digital Personal Data Protection Act, 2023. Infrastructure is hosted outside India (Vercel, US). See <a href="#" data-open="pcInfo" style="color:#a5b4fc">full disclosures</a>.</p>
+    </div>
+  </div>
+
+  <!-- Disclosures ------------------------------------------------------- -->
+  <div class="pc-modal" id="pcInfo" role="dialog" aria-modal="true" aria-labelledby="pcInfoTitle">
+    <div class="pc-modal__scrim" data-close></div>
+    <div class="pc-modal__card">
+      <button class="pc-modal__close" data-close aria-label="Close">×</button>
+      <div class="pc-modal__eyebrow">Important information</div>
+      <h2 class="pc-modal__title" id="pcInfoTitle">Disclosures</h2>
+      <ul class="pc-list">
+        <li><b>Pre-launch, not an offer.</b> Nothing on this page is an offer, solicitation or invitation to invest, or investment, legal or tax advice. No investment can be made through this site today.</li>
+        <li><b>Illustrative content.</b> Property names, yields and figures shown are examples to explain the idea. They are not real listings or forecasts.</li>
+        <li><b>Regulation.</b> Pooled or fractional ownership of real estate in India is regulated, including by SEBI. Any future offering will be made only in line with applicable law and may be limited to eligible investors. PropChain India does not claim regulatory approval at this time.</li>
+        <li><b>Risk.</b> Real estate investments carry risk, including loss of capital, vacancy, illiquidity and valuation changes. Past or target returns do not guarantee future results.</li>
+        <li><b>Your data.</b> Email addresses are collected only with your consent, kept in a private store and used only to contact you about early access. Hosting is outside India (Vercel, United States).</li>
+      </ul>
+      <p class="pc-credit">Photography: Pexels contributors (Pexels licence). Images are stock photos and may not depict PropChain properties.</p>
     </div>
   </div>
 
@@ -92,138 +197,142 @@
   <script>
     mountScrollWorld(document.getElementById('world'), {
       brand: { name: 'PropChain India', href: '#top' },
-      cta: { label: 'Start investing', href: '#invest' },
+      cta: { label: 'Join waitlist', href: '#invest' },
       hint: 'scroll to fly in',
       diveScroll: 1.4,
       connScroll: 1.0,
       sections: [
         {
           id: 'city', label: 'The City',
-          still: 'assets/city.webp',
-          clip: 'assets/vid/city.mp4',
-          clipMobile: 'assets/vid/city-m.mp4',
-          accent: '#6366f1',
+          still: 'assets/city.webp', stillMobile: 'assets/city-m.webp',
+          clip: 'assets/vid/city.mp4', clipMobile: 'assets/vid/city-m.mp4',
+          accent: '#818cf8',
           scroll: 1.5, linger: 0.35,
           eyebrow: 'Marine Drive, Mumbai',
-          title: 'India’s cities are a ₹400 lakh crore asset class.',
-          body: 'From the Queen’s Necklace to BKC, prime real estate has built generational wealth — for the few who could buy whole floors.',
+          title: 'Prime real estate has been out of reach.',
+          body: 'Most of us have watched Mumbai, Bengaluru and Gurugram grow from the outside. Owning part of a Grade-A tower meant writing a crore-sized cheque.',
           tags: ['Mumbai', 'Bengaluru', 'Gurugram'],
         },
         {
-          id: 'tower', label: 'The Tower',
-          still: 'assets/tower.webp',
-          clip: 'assets/vid/tower.mp4',
-          clipMobile: 'assets/vid/tower-m.mp4',
-          accent: '#8b5cf6',
+          id: 'tower', label: 'The Idea',
+          still: 'assets/tower.webp', stillMobile: 'assets/tower-m.webp',
+          clip: 'assets/vid/tower.mp4', clipMobile: 'assets/vid/tower-m.mp4',
+          accent: '#a78bfa',
           scroll: 1.6, linger: 0.45,
-          eyebrow: 'Lower Parel, rising',
-          title: 'Every tower, split into on-chain fractions.',
-          body: 'Grade-A commercial property, tokenised into SEBI-compliant fractions held in audited SPVs. Tradeable, transparent, yours from day one.',
-          tags: ['9%+ target rental yield', 'SEBI-ready SPVs', 'Live on-chain registry'],
+          eyebrow: 'The idea',
+          title: 'Own a fraction of one building.',
+          body: 'PropChain is building a way to hold a share of a single commercial property, with a clear legal structure and a record of who owns what.',
+          tags: ['Fractional ownership', 'Rental income', 'Clear ownership record'],
         },
         {
-          id: 'invest', label: 'Your Stake',
-          still: 'assets/stake.webp',
-          clip: 'assets/vid/stake.mp4',
-          clipMobile: 'assets/vid/stake-m.mp4',
-          accent: '#10b981',
+          id: 'invest', label: 'Early Access',
+          still: 'assets/stake.webp', stillMobile: 'assets/stake-m.webp',
+          clip: 'assets/vid/stake.mp4', clipMobile: 'assets/vid/stake-m.mp4',
+          accent: '#34d399',
           scroll: 1.6, linger: 0.5,
-          eyebrow: 'Your move',
-          title: 'Start with ₹10,000. Exit anytime.',
-          body: 'Monthly rental income, long-term appreciation, and on-chain liquidity whenever you want out.',
+          eyebrow: 'Early access',
+          title: 'Join the waitlist.',
+          body: 'We are opening in small cohorts. Share your email and we will send launch details and the full risk disclosures before anything goes live.',
           tags: [],
-          cta: { primary: { label: 'Start investing', href: '#invest' },
-                 secondary: { label: 'How it works', href: '#invest' } },
+          cta: { primary: { label: 'Join the waitlist', href: '#invest' },
+                 secondary: { label: 'Read disclosures', href: '#disclosures' } },
         },
       ],
       connectors: ['assets/vid/conn1.mp4', 'assets/vid/conn2.mp4'],
       connectorsMobile: ['assets/vid/conn1-m.mp4', 'assets/vid/conn2-m.mp4'],
     });
 
-    // ---- Invest modal: live listings + waitlist (full-stack wiring) -------
-    const modal = document.getElementById('pcModal');
-    const propsEl = document.getElementById('pcProps');
+    // ---- Modals: waitlist + disclosures ---------------------------------
+    const $ = id => document.getElementById(id);
+    const propsEl = $('pcProps');
     let propsLoaded = false;
+    let openId = null, lastFocus = null;
 
-    function inr(n) { return '₹' + n.toLocaleString('en-IN'); }
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
     async function loadProps() {
       if (propsLoaded) return;
       try {
         const r = await fetch('/api/properties');
         const data = await r.json();
-        propsEl.innerHTML = data.properties.map(p => {
-          const pct = Math.round(100 * p.fractions_sold / p.fractions_total);
-          const soldOut = p.status === 'sold_out';
-          return `<div class="pc-prop${soldOut ? ' pc-prop--soldout' : ''}">
-            <div style="flex:1">
-              <div class="pc-prop__name">${p.name} · ${p.city}</div>
-              <div class="pc-prop__meta">${p.micro_market} · ${p.asset_type} · ${p.tenant}</div>
-              <div class="pc-prop__bar"><i style="width:${pct}%"></i></div>
+        propsEl.innerHTML = data.properties.map(p => `
+          <div class="pc-prop">
+            <div style="flex:1;min-width:0">
+              <div class="pc-prop__name">${esc(p.name)} · ${esc(p.city)}</div>
+              <div class="pc-prop__meta">${esc(p.micro_market)} · ${esc(p.asset_type)}</div>
             </div>
             <div class="pc-prop__yield">
-              <b>${p.target_yield_pct}%</b>
-              <span>target yield</span>
-              <span class="pc-tag${soldOut ? ' pc-tag--soldout' : ''}">${soldOut ? 'SOLD OUT' : pct + '% funded'}</span>
+              <b>~${esc(p.target_yield_pct)}%</b>
+              <span>example yield</span>
+              <span class="pc-tag">ILLUSTRATIVE</span>
             </div>
-          </div>`;
-        }).join('');
+          </div>`).join('');
         propsLoaded = true;
       } catch (e) {
-        propsEl.innerHTML = '<div class="pc-prop"><div class="pc-prop__name">Listings unavailable — try again shortly.</div></div>';
+        propsEl.innerHTML = '<div class="pc-prop"><div class="pc-prop__name">Examples unavailable right now.</div></div>';
       }
     }
 
-    let lastFocus = null;
-    function openModal() {
+    function open(id) {
+      if (openId) close(false);
       lastFocus = document.activeElement;
-      modal.classList.add('open');
+      openId = id;
+      $(id).classList.add('open');
       document.documentElement.style.overflow = 'hidden';
-      loadProps();
-      setTimeout(() => document.getElementById('pcEmail').focus(), 50);
+      if (id === 'pcModal') { loadProps(); setTimeout(() => $('pcEmail').focus(), 60); }
+      else setTimeout(() => $(id).querySelector('.pc-modal__close').focus(), 60);
     }
-    function closeModal() {
-      modal.classList.remove('open');
+    function close(restore = true) {
+      if (!openId) return;
+      $(openId).classList.remove('open');
+      openId = null;
       document.documentElement.style.overflow = '';
-      if (lastFocus && lastFocus.focus) lastFocus.focus();
+      if (restore && lastFocus && lastFocus.focus) lastFocus.focus();
     }
 
     document.addEventListener('click', e => {
-      const a = e.target.closest('a[href="#invest"]');
-      if (a) { e.preventDefault(); openModal(); }
-      if (e.target.closest('[data-close]')) closeModal();
+      const inv = e.target.closest('a[href="#invest"]');
+      const disc = e.target.closest('a[href="#disclosures"]');
+      const opener = e.target.closest('[data-open]');
+      if (inv) { e.preventDefault(); open('pcModal'); }
+      else if (disc) { e.preventDefault(); open('pcInfo'); }
+      else if (opener) { e.preventDefault(); open(opener.getAttribute('data-open')); }
+      else if (e.target.closest('[data-close]')) close();
     });
     document.addEventListener('keydown', e => {
-      if (!modal.classList.contains('open')) return;
-      if (e.key === 'Escape') return closeModal();
-      if (e.key === 'Tab') {
-        // Simple focus trap within the modal card.
-        const f = modal.querySelectorAll('input:not([tabindex="-1"]), button, a[href]');
-        if (!f.length) return;
-        const first = f[0], last = f[f.length - 1];
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-      }
+      if (!openId) return;
+      if (e.key === 'Escape') return close();
+      if (e.key !== 'Tab') return;
+      const f = [...$(openId).querySelectorAll('input:not([tabindex="-1"]), button, a[href]')].filter(n => n.offsetParent !== null);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
 
-    document.getElementById('pcForm').addEventListener('submit', async e => {
+    $('pcForm').addEventListener('submit', async e => {
       e.preventDefault();
-      const btn = document.getElementById('pcSubmit');
-      const msg = document.getElementById('pcMsg');
-      btn.disabled = true; msg.className = 'pc-msg'; msg.textContent = '';
+      const btn = $('pcSubmit'), msg = $('pcMsg');
+      msg.className = 'pc-msg'; msg.textContent = '';
+      if (!$('pcConsent').checked) {
+        msg.className = 'pc-msg err';
+        msg.textContent = 'Please tick the consent box to join the waitlist.';
+        return;
+      }
+      btn.disabled = true;
       try {
         const r = await fetch('/api/waitlist', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: document.getElementById('pcEmail').value, company: document.getElementById('pcCompany').value, interest: 'launch-cohort' }),
+          body: JSON.stringify({ email: $('pcEmail').value, company: $('pcCompany').value, consent: true, interest: 'launch-cohort' }),
         });
         const data = await r.json();
         msg.className = 'pc-msg ' + (data.ok ? 'ok' : 'err');
         msg.textContent = data.ok ? data.message : data.error;
-        if (data.ok) document.getElementById('pcForm').reset();
+        if (data.ok) { $('pcForm').reset(); }
       } catch (err) {
         msg.className = 'pc-msg err';
-        msg.textContent = 'Network error — please try again.';
+        msg.textContent = 'Network error. Please try again.';
       }
       btn.disabled = false;
     });
