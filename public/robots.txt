@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://propchain-india-app.vercel.app/sitemap.xml
+Sitemap: https://propchain-app-sepia.vercel.app/sitemap.xml
